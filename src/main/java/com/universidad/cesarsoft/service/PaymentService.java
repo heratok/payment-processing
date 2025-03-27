@@ -19,7 +19,7 @@ public class PaymentService {
         paymentFactories = new ConcurrentHashMap<>();
         paymentFactories.put("creditcard", new CreditCardPaymentFactory());
         paymentFactories.put("paypal", new PayPalPaymentFactory());
-        paymentFactories.put("banktransfer", new BankTransferPaymentFactory());
+        paymentFactories.put("debitcard", new DebitCardPaymentFactory());
     }
 
     // Método para procesar pagos según el método seleccionado

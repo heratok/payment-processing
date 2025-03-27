@@ -20,9 +20,9 @@ public class PaymentConfiguration {
         return new PayPalPaymentFactory();
     }
 
-    // Bean para fábrica de transferencias bancarias
+    // Bean para fábrica de pagos con tarjeta de débito
     @Bean
-    public PaymentMethodFactory bankTransferPaymentFactory() {
-        return new BankTransferPaymentFactory();
+    public PaymentMethodFactory debitCardPaymentFactory() {
+        return new DebitCardPaymentFactory();
     }
 }
