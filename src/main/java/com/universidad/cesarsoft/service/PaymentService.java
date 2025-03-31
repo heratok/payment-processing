@@ -3,7 +3,6 @@ package com.universidad.cesarsoft.service;
 import com.universidad.cesarsoft.factory.*;
 import com.universidad.cesarsoft.model.PaymentMethod;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,11 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class PaymentService {
     private final Map<String, PaymentMethodFactory> paymentFactories;
-    private final PaymentCalculatorService calculatorService;
 
-    @Autowired
-    public PaymentService(PaymentCalculatorService calculatorService) {
-        this.calculatorService = calculatorService;
+    public PaymentService() {
         // Inicialización de fábricas de métodos de pago
         paymentFactories = new ConcurrentHashMap<>();
         paymentFactories.put("creditcard", new CreditCardPaymentFactory());
@@ -38,29 +34,17 @@ public class PaymentService {
         }
 
         try {
-            // Calcular el monto final según el tipo de pago
-            double finalAmount = calculateFinalAmount(amount, paymentMethodType.toLowerCase());
-            
             PaymentMethod paymentMethod = factory.createPaymentMethod();
-            boolean result = paymentMethod.processPayment(finalAmount);
+            boolean result = paymentMethod.processPayment(amount);
 
-            log.info("Pago procesado: método={}, monto original={}, monto final={}, resultado={}",
-                    paymentMethodType, amount, finalAmount, result);
+            log.info("Pago procesado: método={}, monto={}, resultado={}",
+                    paymentMethodType, amount, result);
 
             return result;
         } catch (Exception e) {
             log.error("Error procesando pago", e);
             return false;
         }
-    }
-
-    private double calculateFinalAmount(double amount, String paymentMethodType) {
-        return switch (paymentMethodType) {
-            case "creditcard" -> calculatorService.calculateCreditCardPayment(amount);
-            case "debitcard" -> calculatorService.calculateDebitCardPayment(amount);
-            case "paypal" -> calculatorService.calculatePayPalPayment(amount);
-            default -> amount;
-        };
     }
 
     // Método para registrar nuevos métodos de pago dinámicamente

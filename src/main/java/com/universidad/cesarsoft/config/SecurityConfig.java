@@ -33,7 +33,7 @@ public class SecurityConfig {
     // Usuarios en memoria para autenticación
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails adminUser = User.withUsername("admin")
+            UserDetails adminUser = User.withUsername("admin")
                 .password(passwordEncoder().encode("cesarsoft2024"))
                 .roles("ADMIN")
                 .build();

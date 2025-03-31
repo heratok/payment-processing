@@ -1,56 +1,17 @@
-2025-03-27T11:10:51.686-05:00  INFO 7060 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Starting PaymentProcessingApplication using Java 21.0.6 with PID 7060 (C:\Users\hecto\Desktop\payment-processing\target\classes started by hecto in C:\Users\hecto\Desktop\payment-processing)
-2025-03-27T11:10:51.711-05:00 DEBUG 7060 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Running with Spring Boot v3.4.4, Spring v6.2.5
-2025-03-27T11:10:51.714-05:00  INFO 7060 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-03-27T11:10:55.332-05:00  INFO 7060 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-03-27T11:10:55.377-05:00  INFO 7060 --- [Payment Processing API] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-27T11:10:55.379-05:00  INFO 7060 --- [Payment Processing API] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-03-27T11:10:55.558-05:00  INFO 7060 --- [Payment Processing API] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
-2025-03-27T11:10:55.560-05:00  INFO 7060 --- [Payment Processing API] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3630 ms
-2025-03-27T11:10:56.572-05:00  INFO 7060 --- [Payment Processing API] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
-2025-03-27T11:10:58.088-05:00  INFO 7060 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
-2025-03-27T11:10:58.121-05:00  INFO 7060 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Started PaymentProcessingApplication in 8.688 seconds (process running for 9.814)
-2025-03-27T11:12:01.861-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-27T11:12:01.861-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-27T11:12:01.861-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-03-27T11:12:02.536-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] c.u.c.controller.PaymentController       : Procesando pago de $100.5 por método paypal
-2025-03-27T11:12:02.553-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] c.u.cesarsoft.service.PaymentService     : Pago procesado: método=paypal, monto=100.5, resultado=true
-2025-03-27T11:12:02.553-05:00  INFO 7060 --- [Payment Processing API] [http-nio-8080-exec-5] c.u.c.controller.PaymentController       : Resultado del pago: PaymentResponseDTO(success=true, message=Pago procesado exitosamente, transactionId=96e2b1cb-e702-42cf-9146-ea33ec96c60a)
-2025-03-27T12:58:16.029-05:00  INFO 1972 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Starting PaymentProcessingApplication using Java 21.0.6 with PID 1972 (C:\Users\hecto\Desktop\payment-processing\target\classes started by hecto in C:\Users\hecto\Desktop\payment-processing)
-2025-03-27T12:58:16.032-05:00 DEBUG 1972 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Running with Spring Boot v3.4.4, Spring v6.2.5
-2025-03-27T12:58:16.033-05:00  INFO 1972 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-03-27T12:58:17.468-05:00  INFO 1972 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-03-27T12:58:17.493-05:00  INFO 1972 --- [Payment Processing API] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-27T12:58:17.494-05:00  INFO 1972 --- [Payment Processing API] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-03-27T12:58:17.570-05:00  INFO 1972 --- [Payment Processing API] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
-2025-03-27T12:58:17.571-05:00  INFO 1972 --- [Payment Processing API] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1474 ms
-2025-03-27T12:58:17.940-05:00  INFO 1972 --- [Payment Processing API] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
-2025-03-27T12:58:18.439-05:00  INFO 1972 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
-2025-03-27T12:58:18.449-05:00  INFO 1972 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Started PaymentProcessingApplication in 3.105 seconds (process running for 3.566)
-2025-03-27T12:59:33.748-05:00  INFO 1972 --- [Payment Processing API] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-27T12:59:33.749-05:00  INFO 1972 --- [Payment Processing API] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-27T12:59:33.751-05:00  INFO 1972 --- [Payment Processing API] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-03-27T12:59:48.188-05:00  INFO 1972 --- [Payment Processing API] [http-nio-8080-exec-5] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 204 ms
-2025-03-27T13:33:42.450-05:00  INFO 1972 --- [Payment Processing API] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-03-27T13:33:42.458-05:00  INFO 1972 --- [Payment Processing API] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-03-27T13:34:06.010-05:00  INFO 18580 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Starting PaymentProcessingApplication using Java 21.0.6 with PID 18580 (C:\Users\hecto\Desktop\payment-processing\target\classes started by hecto in C:\Users\hecto\Desktop\payment-processing)
-2025-03-27T13:34:06.012-05:00 DEBUG 18580 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Running with Spring Boot v3.4.4, Spring v6.2.5
-2025-03-27T13:34:06.013-05:00  INFO 18580 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : No active profile set, falling back to 1 default profile: "default"
-2025-03-27T13:34:07.309-05:00  INFO 18580 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-03-27T13:34:07.322-05:00  INFO 18580 --- [Payment Processing API] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-03-27T13:34:07.323-05:00  INFO 18580 --- [Payment Processing API] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
-2025-03-27T13:34:07.375-05:00  INFO 18580 --- [Payment Processing API] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
-2025-03-27T13:34:07.376-05:00  INFO 18580 --- [Payment Processing API] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1304 ms
-2025-03-27T13:34:07.710-05:00  INFO 18580 --- [Payment Processing API] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
-2025-03-27T13:34:08.138-05:00  INFO 18580 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
-2025-03-27T13:34:08.146-05:00  INFO 18580 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Started PaymentProcessingApplication in 2.633 seconds (process running for 2.94)
-2025-03-27T13:34:19.198-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-03-27T13:34:19.198-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-03-27T13:34:19.199-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-03-27T13:34:19.484-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] c.u.c.controller.PaymentController       : Procesando pago de $100.5 por método paypal
-2025-03-27T13:34:19.486-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] c.u.cesarsoft.service.PaymentService     : Pago procesado: método=paypal, monto original=100.5, monto final=102.51, resultado=true
-2025-03-27T13:34:19.488-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-1] c.u.c.controller.PaymentController       : Resultado del pago: PaymentResponseDTO(success=true, message=Pago procesado exitosamente, transactionId=554b651c-7076-4f92-b36a-22f52081e399)
-2025-03-27T13:36:23.378-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-7] c.u.c.controller.PaymentController       : Procesando pago de $120.5 por método creditcard
-2025-03-27T13:36:23.380-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-7] c.u.cesarsoft.service.PaymentService     : Pago procesado: método=creditcard, monto original=120.5, monto final=126.525, resultado=true
-2025-03-27T13:36:23.380-05:00  INFO 18580 --- [Payment Processing API] [http-nio-8080-exec-7] c.u.c.controller.PaymentController       : Resultado del pago: PaymentResponseDTO(success=true, message=Pago procesado exitosamente, transactionId=57a510aa-aa7d-4e93-a3ef-70b154c8584b)
-2025-03-27T13:37:19.213-05:00  INFO 18580 --- [Payment Processing API] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-03-27T13:37:19.222-05:00  INFO 18580 --- [Payment Processing API] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-03-28T13:34:29.431-05:00  INFO 5444 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Starting PaymentProcessingApplication using Java 21.0.6 with PID 5444 (C:\Users\hecto\Desktop\payment-processing\target\classes started by hecto in C:\Users\hecto\Desktop\payment-processing)
+2025-03-28T13:34:29.431-05:00 DEBUG 5444 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Running with Spring Boot v3.4.4, Spring v6.2.5
+2025-03-28T13:34:29.446-05:00  INFO 5444 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-03-28T13:34:31.982-05:00  INFO 5444 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-03-28T13:34:32.018-05:00  INFO 5444 --- [Payment Processing API] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-28T13:34:32.020-05:00  INFO 5444 --- [Payment Processing API] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.39]
+2025-03-28T13:34:32.149-05:00  INFO 5444 --- [Payment Processing API] [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-03-28T13:34:32.150-05:00  INFO 5444 --- [Payment Processing API] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2603 ms
+2025-03-28T13:34:32.999-05:00  INFO 5444 --- [Payment Processing API] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-03-28T13:34:34.013-05:00  INFO 5444 --- [Payment Processing API] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api'
+2025-03-28T13:34:34.030-05:00  INFO 5444 --- [Payment Processing API] [main] c.u.c.PaymentProcessingApplication       : Started PaymentProcessingApplication in 5.68 seconds (process running for 6.529)
+2025-03-28T13:35:18.817-05:00  INFO 5444 --- [Payment Processing API] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-28T13:35:18.820-05:00  INFO 5444 --- [Payment Processing API] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-03-28T13:35:18.826-05:00  INFO 5444 --- [Payment Processing API] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2025-03-28T13:35:20.305-05:00  INFO 5444 --- [Payment Processing API] [http-nio-8080-exec-8] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 446 ms
+2025-03-28T13:38:18.003-05:00  INFO 5444 --- [Payment Processing API] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-28T13:38:18.031-05:00  INFO 5444 --- [Payment Processing API] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
