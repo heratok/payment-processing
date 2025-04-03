@@ -15,10 +15,17 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:3000",  // Frontend local
                         "http://localhost:8080",  // Backend local
+                        "http://localhost:5173",  // Vite dev server default
+                        "http://localhost:5174",  // Vite dev server alternate
+                        "http://127.0.0.1:5173",  // Vite IP access
+                        "http://127.0.0.1:5174",  // Vite IP access alternate
+                        "http://localhost:4173",  // Vite preview
                         "https://tudominio.com"   // Dominio de producción
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .exposedHeaders("Authorization")
+                .allowCredentials(true)
+                .maxAge(3600); // 1 hora de caché preflight
     }
 }

@@ -1,0 +1,9 @@
+backend/
+.idea/
+.vscode/
+*.bat
+*.cmd
+*.log
+logs/
+target/
+.mvn/ 

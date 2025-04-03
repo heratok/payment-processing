@@ -18,6 +18,7 @@ import java.util.UUID;
 // Controlador REST para manejar solicitudes de pago
 @RestController
 @RequestMapping("/payments")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 @Slf4j
 @Tag(name = "Payment Processing", description = "API para procesamiento de pagos")
 public class PaymentController {
