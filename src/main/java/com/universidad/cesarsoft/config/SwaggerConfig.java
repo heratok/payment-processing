@@ -5,9 +5,11 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 // Configuración de documentación Swagger/OpenAPI
 @Configuration
+@EnableWebMvc
 @OpenAPIDefinition(
         info = @Info(
                 title = "Payment Processing API",
@@ -19,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
                 )
         ),
         servers = {
-                @Server(url = "http://localhost:8080", description = "Servidor de Desarrollo")
+                @Server(url = "/api", description = "Servidor de Desarrollo")
         }
 )
 public class SwaggerConfig {
