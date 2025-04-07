@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { paymentService, PaymentResponse } from '../services/api';
 import { motion } from 'framer-motion';
+import { useTheme } from '../theme/ThemeContext';
 
 export const PaymentHistory: React.FC = () => {
   const [payments, setPayments] = useState<PaymentResponse[]>([]);
@@ -40,9 +41,9 @@ export const PaymentHistory: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex justify-center items-center h-64"
+        className="flex items-center justify-center h-64"
       >
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
       </motion.div>
     );
   }
@@ -52,9 +53,9 @@ export const PaymentHistory: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-lg bg-red-50 p-4"
+        className="p-4 rounded-lg bg-destructive/10 text-destructive border border-destructive/20"
       >
-        <div className="text-sm text-red-700">{error}</div>
+        <div className="text-sm">{error}</div>
       </motion.div>
     );
   }
@@ -65,69 +66,67 @@ export const PaymentHistory: React.FC = () => {
       animate={{ opacity: 1 }}
       className="space-y-6"
     >
-      <h2 className="text-2xl font-bold text-gray-800">Historial de Pagos</h2>
+      <h2 className="text-2xl font-bold text-foreground">
+        Historial de Pagos
+      </h2>
       
       {payments.length === 0 ? (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center text-gray-500 py-8"
+          className="py-8 text-center text-muted-foreground"
         >
           No hay pagos registrados
         </motion.div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID de Transacción
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Método de Pago
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Estado
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Mensaje
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {payments.map((payment, index) => (
-                <motion.tr
-                  key={payment.transactionId}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="hover:bg-gray-50"
-                >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {payment.transactionId}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {getPaymentMethodLabel(payment.paymentMethod)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <motion.span
-                      whileHover={{ scale: 1.05 }}
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        payment.success 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}
-                    >
-                      {payment.success ? 'Exitoso' : 'Fallido'}
-                    </motion.span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {payment.message}
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="relative overflow-hidden rounded-lg border bg-card">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b bg-muted/50 transition-colors">
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    ID de Transacción
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    Método de Pago
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    Estado
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    Mensaje
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {payments.map((payment) => (
+                  <tr
+                    key={payment.transactionId}
+                    className="transition-colors hover:bg-muted/50"
+                  >
+                    <td className="p-4 align-middle text-sm text-foreground">
+                      {payment.transactionId}
+                    </td>
+                    <td className="p-4 align-middle text-sm text-foreground">
+                      {getPaymentMethodLabel(payment.paymentMethod)}
+                    </td>
+                    <td className="p-4 align-middle">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        payment.success
+                          ? 'bg-green-500/10 text-green-500'
+                          : 'bg-destructive/10 text-destructive'
+                      }`}>
+                        {payment.success ? 'Exitoso' : 'Fallido'}
+                      </span>
+                    </td>
+                    <td className="p-4 align-middle text-sm text-foreground">
+                      {payment.message}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </motion.div>

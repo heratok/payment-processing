@@ -7,10 +7,10 @@ interface BaseComponentProps {
 }
 
 export const BaseComponent: React.FC<BaseComponentProps> = ({ children, className = '' }) => {
-  const { theme } = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
-    <div className={`bg-${theme.background} text-${theme.text} ${className}`}>
+    <div className={`bg-background text-foreground ${className}`}>
       {children}
     </div>
   );

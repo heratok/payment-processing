@@ -12,10 +12,10 @@ export interface ThemeFactory {
 export class LightThemeFactory implements ThemeFactory {
   createTheme(): Theme {
     return {
-      primary: 'bg-blue-600',
-      secondary: 'bg-green-500',
-      background: 'bg-white',
-      text: 'text-gray-800'
+      primary: 'bg-primary-light',
+      secondary: 'bg-secondary-light',
+      background: 'bg-background-light',
+      text: 'text-text-light'
     };
   }
 }
@@ -23,10 +23,10 @@ export class LightThemeFactory implements ThemeFactory {
 export class DarkThemeFactory implements ThemeFactory {
   createTheme(): Theme {
     return {
-      primary: 'bg-blue-800',
-      secondary: 'bg-green-700',
-      background: 'bg-gray-800',
-      text: 'text-white'
+      primary: 'bg-primary-dark',
+      secondary: 'bg-secondary-dark',
+      background: 'bg-background-dark',
+      text: 'text-text-dark'
     };
   }
 } 
