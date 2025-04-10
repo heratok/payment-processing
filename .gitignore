@@ -22,3 +22,28 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos de configuración con credenciales
+*.properties
+*.env
+*.yml
+*.yaml
+
+# Archivos de IDE
+.idea/
+*.iml
+.vscode/
+
+# Archivos de compilación
+target/
+build/
+*.class
+*.jar
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
