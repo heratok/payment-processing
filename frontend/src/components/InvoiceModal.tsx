@@ -12,6 +12,7 @@ interface InvoiceModalProps {
     paymentMethod: string;
     date: string;
     transactionId: string;
+    status: string;
   };
 }
 
@@ -19,29 +20,29 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
   const [isSending, setIsSending] = useState(false);
 
   const handleShare = async (type: string) => {
-    if (type === 'EMAIL') {
-      setIsSending(true);
-      try {
-        const request: NotificationRequest = {
-          type: 'EMAIL',
-          recipient: 'heratok08@gmail.com',
-          subject: 'Factura de Pago',
-          paymentDetails: {
-            amount: paymentData.amount,
-            paymentMethod: paymentData.paymentMethod,
-            date: paymentData.date,
-            transactionId: paymentData.transactionId
-          }
-        };
+    setIsSending(true);
+    try {
+      const request: NotificationRequest = {
+        type: type,
+        recipient: type === 'EMAIL' ? 'heratok08@gmail.com' : '+573207403002', // Número de WhatsApp por defecto
+        subject: 'Factura de Pago',
+        message: undefined, // No enviar mensaje personalizado para evitar duplicación
+        paymentDetails: {
+          amount: paymentData.amount,
+          paymentMethod: paymentData.paymentMethod,
+          date: paymentData.date,
+          transactionId: paymentData.transactionId,
+          status: paymentData.status || 'Completado'
+        }
+      };
 
-        await notificationService.sendNotification(request);
-        toast.success('Factura enviada por correo exitosamente');
-      } catch (error) {
-        toast.error('Error al enviar la factura por correo');
-        console.error('Error:', error);
-      } finally {
-        setIsSending(false);
-      }
+      await notificationService.sendNotification(request);
+      toast.success(`Factura enviada por ${type === 'EMAIL' ? 'correo' : 'WhatsApp'} exitosamente`);
+    } catch (error) {
+      toast.error(`Error al enviar la factura por ${type === 'EMAIL' ? 'correo' : 'WhatsApp'}`);
+      console.error('Error:', error);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -102,10 +103,12 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => handleShare('WHATSAPP')}
+            disabled={isSending}
             className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-green-500 text-white hover:opacity-90 transition-all"
           >
             <MessageSquare className="w-5 h-5" />
-            <span className="text-sm">WhatsApp</span>
+            <span className="text-sm">{isSending ? 'Enviando...' : 'WhatsApp'}</span>
           </motion.button>
 
           <motion.button

@@ -1,15 +1,15 @@
 package com.payment.notifications.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentDetails {
     private double amount;
     private String paymentMethod;
-    private String date;
+    private String status;
     private String transactionId;
 } 

@@ -207,7 +207,8 @@ export const PaymentForm: React.FC = () => {
           amount: lastPaymentAmount,
           paymentMethod: formData.paymentMethod,
           date: new Date().toLocaleDateString(),
-          transactionId: Math.random().toString(36).substring(2, 10).toUpperCase()
+          transactionId: Math.random().toString(36).substring(2, 10).toUpperCase(),
+          status: result?.success ? 'Completado' : 'Fallido'
         }}
       />
     </motion.div>

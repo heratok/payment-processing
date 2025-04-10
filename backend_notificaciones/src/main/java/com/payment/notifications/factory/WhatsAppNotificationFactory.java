@@ -2,24 +2,24 @@ package com.payment.notifications.factory;
 
 import com.payment.notifications.model.NotificationRequest;
 import com.payment.notifications.service.NotificationService;
+import com.payment.notifications.config.TwilioConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import com.payment.notifications.service.impl.WhatsAppNotificationService;
 
 @Component
-public class EmailNotificationFactory implements NotificationFactory {
+public class WhatsAppNotificationFactory implements NotificationFactory {
 
     @Autowired
-    @Qualifier("emailNotificationService")
-    private NotificationService emailService;
+    private TwilioConfig twilioConfig;
 
     @Override
     public NotificationService createNotificationService() {
-        return emailService;
+        return new WhatsAppNotificationService(twilioConfig);
     }
 
     @Override
     public boolean supports(NotificationRequest request) {
-        return "EMAIL".equals(request.getType());
+        return "WHATSAPP".equals(request.getType());
     }
 } 
