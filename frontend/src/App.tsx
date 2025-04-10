@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { ThemeProvider, useTheme } from './theme/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 
 function ThemeToggle() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -31,6 +32,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Toaster position="top-right" />
       <nav className="border-b bg-card">
         <div className="container px-4 mx-auto sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between py-4 sm:flex-row">
@@ -101,7 +103,10 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <div className="min-h-screen bg-background text-foreground">
+        <Toaster position="top-right" />
+        <AppContent />
+      </div>
     </ThemeProvider>
   );
 }

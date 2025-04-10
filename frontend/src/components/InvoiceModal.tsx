@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Share2 } from 'lucide-react';
+import { notificationService, NotificationRequest } from '../services/notificationService';
+import { toast } from 'react-hot-toast';
 
 interface InvoiceModalProps {
   isOpen: boolean;
@@ -14,6 +16,35 @@ interface InvoiceModalProps {
 }
 
 export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, paymentData }) => {
+  const [isSending, setIsSending] = useState(false);
+
+  const handleShare = async (type: string) => {
+    if (type === 'EMAIL') {
+      setIsSending(true);
+      try {
+        const request: NotificationRequest = {
+          type: 'EMAIL',
+          recipient: 'heratok08@gmail.com',
+          subject: 'Factura de Pago',
+          paymentDetails: {
+            amount: paymentData.amount,
+            paymentMethod: paymentData.paymentMethod,
+            date: paymentData.date,
+            transactionId: paymentData.transactionId
+          }
+        };
+
+        await notificationService.sendNotification(request);
+        toast.success('Factura enviada por correo exitosamente');
+      } catch (error) {
+        toast.error('Error al enviar la factura por correo');
+        console.error('Error:', error);
+      } finally {
+        setIsSending(false);
+      }
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -56,10 +87,16 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-all"
+            onClick={() => handleShare('EMAIL')}
+            disabled={isSending}
+            className={`flex flex-col items-center justify-center gap-2 p-4 rounded-lg ${
+              isSending 
+                ? 'bg-muted text-muted-foreground cursor-not-allowed' 
+                : 'bg-primary text-primary-foreground hover:opacity-90'
+            } transition-all`}
           >
             <Mail className="w-5 h-5" />
-            <span className="text-sm">Gmail</span>
+            <span className="text-sm">{isSending ? 'Enviando...' : 'Gmail'}</span>
           </motion.button>
 
           <motion.button
