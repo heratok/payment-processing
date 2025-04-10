@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Share2 } from 'lucide-react';
-import { notificationService, NotificationRequest } from '../services/notificationService';
+import { Mail, MessageSquare } from 'lucide-react';
+import { notificationService, NotificationRequest, NotificationType } from '../services/notificationService';
 import { toast } from 'react-hot-toast';
 
 interface InvoiceModalProps {
@@ -19,7 +19,7 @@ interface InvoiceModalProps {
 export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, paymentData }) => {
   const [isSending, setIsSending] = useState(false);
 
-  const handleShare = async (type: string) => {
+  const handleShare = async (type: NotificationType) => {
     setIsSending(true);
     try {
       const request: NotificationRequest = {
@@ -59,40 +59,40 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="relative w-full max-w-md p-6 bg-card rounded-xl shadow-lg border border-border"
+        className="relative w-full max-w-md p-6 border shadow-lg bg-card rounded-xl border-border"
       >
         {/* Encabezado */}
-        <div className="text-center mb-6">
+        <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold text-foreground">Factura de Pago</h2>
           <p className="text-muted-foreground">Transacción #{paymentData.transactionId}</p>
         </div>
 
         {/* Detalles de la factura */}
-        <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center">
+        <div className="mb-6 space-y-4">
+          <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Monto:</span>
             <span className="font-semibold text-foreground">${paymentData.amount.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Método de Pago:</span>
             <span className="font-semibold text-foreground">{paymentData.paymentMethod}</span>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Fecha:</span>
             <span className="font-semibold text-foreground">{paymentData.date}</span>
           </div>
         </div>
 
         {/* Botones de compartir */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleShare('EMAIL')}
             disabled={isSending}
             className={`flex flex-col items-center justify-center gap-2 p-4 rounded-lg ${
-              isSending 
-                ? 'bg-muted text-muted-foreground cursor-not-allowed' 
+              isSending
+                ? 'bg-muted text-muted-foreground cursor-not-allowed'
                 : 'bg-primary text-primary-foreground hover:opacity-90'
             } transition-all`}
           >
@@ -105,26 +105,17 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
             whileTap={{ scale: 0.98 }}
             onClick={() => handleShare('WHATSAPP')}
             disabled={isSending}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-green-500 text-white hover:opacity-90 transition-all"
+            className="flex flex-col items-center justify-center gap-2 p-4 text-white transition-all bg-green-500 rounded-lg hover:opacity-90"
           >
             <MessageSquare className="w-5 h-5" />
             <span className="text-sm">{isSending ? 'Enviando...' : 'WhatsApp'}</span>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-blue-500 text-white hover:opacity-90 transition-all"
-          >
-            <Share2 className="w-5 h-5" />
-            <span className="text-sm">SMS</span>
           </motion.button>
         </div>
 
         {/* Botón de cerrar */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+          className="absolute transition-colors top-4 right-4 text-muted-foreground hover:text-foreground"
         >
           ✕
         </button>

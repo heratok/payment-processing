@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { paymentService, PaymentRequest } from "../services/api";
 import { motion } from "framer-motion";
 import { useTheme } from "../theme/ThemeContext";
-import { CreditCard, Wallet } from "lucide-react";
+import { CreditCard, Wallet, MessageSquare } from "lucide-react";
 import { InvoiceModal } from './InvoiceModal';
+import { notificationService } from '../services/notificationService';
 
 interface PaymentMethodButtonProps {
   selected: boolean;
@@ -58,6 +59,10 @@ export const PaymentForm: React.FC = () => {
   } | null>(null);
   const [showInvoice, setShowInvoice] = useState(false);
   const [lastPaymentAmount, setLastPaymentAmount] = useState(0);
+  const [transactionId, setTransactionId] = useState('');
+  const [notificationType, setNotificationType] = useState<'EMAIL' | 'WHATSAPP'>('EMAIL');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -76,32 +81,73 @@ export const PaymentForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("🔔 Formulario enviado. Procesando pago con:", formData); // <- Esta línea es nueva
+    console.log("🔔 Formulario enviado. Procesando pago con:", formData);
     setLoading(true);
     setResult(null);
 
     try {
       const response = await paymentService.processPayment(formData);
-      setResult({
-        success: response.success,
-        message: response.message,
-      });
-      if (response.success) {
-        setLastPaymentAmount(formData.amount);
-        setShowInvoice(true);
-        setFormData({
-          amount: 0,
-          paymentMethod: "creditcard",
+      setTransactionId(response.transactionId);
+      
+      // Enviar notificación según el tipo seleccionado
+      if (notificationType === 'WHATSAPP' && phoneNumber) {
+        console.log("📱 Enviando notificación WhatsApp a:", phoneNumber);
+        await notificationService.sendNotification({
+          type: 'WHATSAPP',
+          recipient: phoneNumber,
+          subject: 'Notificación de Pago',
+          paymentDetails: {
+            amount: formData.amount,
+            paymentMethod: formData.paymentMethod,
+            date: new Date().toISOString(),
+            transactionId: response.transactionId,
+            status: 'COMPLETADO'
+          }
+        });
+      } else if (notificationType === 'EMAIL' && email) {
+        console.log("📧 Enviando notificación Email a:", email);
+        await notificationService.sendNotification({
+          type: 'EMAIL',
+          recipient: email,
+          subject: 'Notificación de Pago',
+          paymentDetails: {
+            amount: formData.amount,
+            paymentMethod: formData.paymentMethod,
+            date: new Date().toISOString(),
+            transactionId: response.transactionId,
+            status: 'COMPLETADO'
+          }
         });
       }
+      
+      setResult({
+        success: true,
+        message: "Pago procesado exitosamente",
+      });
+      setLastPaymentAmount(formData.amount);
+      setShowInvoice(true);
     } catch (error) {
+      console.error("Error al procesar el pago:", error);
       setResult({
         success: false,
-        message: "Error al procesar el pago",
+        message: "Error al procesar el pago. Por favor, intente nuevamente.",
       });
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleModalClose = () => {
+    setShowInvoice(false);
+    // Reiniciar el estado del formulario
+    setFormData({
+      amount: 0,
+      paymentMethod: "creditcard",
+    });
+    setResult(null);
+    setNotificationType('EMAIL');
+    setPhoneNumber('');
+    setEmail('');
   };
 
   return (
@@ -200,17 +246,19 @@ export const PaymentForm: React.FC = () => {
         </motion.div>
       )}
 
-      <InvoiceModal
-        isOpen={showInvoice}
-        onClose={() => setShowInvoice(false)}
-        paymentData={{
-          amount: lastPaymentAmount,
-          paymentMethod: formData.paymentMethod,
-          date: new Date().toLocaleDateString(),
-          transactionId: Math.random().toString(36).substring(2, 10).toUpperCase(),
-          status: result?.success ? 'Completado' : 'Fallido'
-        }}
-      />
+      {showInvoice && (
+        <InvoiceModal
+          isOpen={showInvoice}
+          onClose={handleModalClose}
+          paymentData={{
+            amount: lastPaymentAmount,
+            paymentMethod: formData.paymentMethod,
+            date: new Date().toLocaleDateString(),
+            transactionId: transactionId,
+            status: result?.success ? 'Completado' : 'Fallido'
+          }}
+        />
+      )}
     </motion.div>
   );
 };
