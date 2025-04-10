@@ -13,13 +13,18 @@ import jakarta.annotation.PostConstruct;
 @Slf4j
 public class TwilioWhatsAppService implements NotificationService, WhatsAppService {
 
-    private static final String ACCOUNT_SID = "ACb6d700a7351aa53450f7ab0a12fdc40c";
-    private static final String AUTH_TOKEN = "3c2401fdcb70a9a8f004f935abfde545";
-    private static final String TWILIO_WHATSAPP_NUMBER = "+14155238886";
+    @Value("${twilio.account.sid}")
+    private String accountSid;
+
+    @Value("${twilio.auth.token}")
+    private String authToken;
+
+    @Value("${twilio.whatsapp.from}")
+    private String twilioWhatsAppNumber;
 
     @PostConstruct
     public void init() {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Twilio.init(accountSid, authToken);
     }
 
     @Override
@@ -50,7 +55,7 @@ public class TwilioWhatsAppService implements NotificationService, WhatsAppServi
         try {
             Message message = Message.creator(
                 new PhoneNumber("whatsapp:" + to),
-                new PhoneNumber("whatsapp:" + TWILIO_WHATSAPP_NUMBER),
+                new PhoneNumber("whatsapp:" + twilioWhatsAppNumber),
                 messageBody
             ).create();
             
