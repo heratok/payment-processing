@@ -3,6 +3,7 @@ import { paymentService, PaymentRequest } from "../services/api";
 import { motion } from "framer-motion";
 import { useTheme } from "../theme/ThemeContext";
 import { CreditCard, Wallet } from "lucide-react";
+import { InvoiceModal } from './InvoiceModal';
 
 interface PaymentMethodButtonProps {
   selected: boolean;
@@ -55,6 +56,8 @@ export const PaymentForm: React.FC = () => {
     success: boolean;
     message: string;
   } | null>(null);
+  const [showInvoice, setShowInvoice] = useState(false);
+  const [lastPaymentAmount, setLastPaymentAmount] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -84,6 +87,8 @@ export const PaymentForm: React.FC = () => {
         message: response.message,
       });
       if (response.success) {
+        setLastPaymentAmount(formData.amount);
+        setShowInvoice(true);
         setFormData({
           amount: 0,
           paymentMethod: "creditcard",
@@ -194,6 +199,17 @@ export const PaymentForm: React.FC = () => {
           <p className="font-medium text-center">{result.message}</p>
         </motion.div>
       )}
+
+      <InvoiceModal
+        isOpen={showInvoice}
+        onClose={() => setShowInvoice(false)}
+        paymentData={{
+          amount: lastPaymentAmount,
+          paymentMethod: formData.paymentMethod,
+          date: new Date().toLocaleDateString(),
+          transactionId: Math.random().toString(36).substring(2, 10).toUpperCase()
+        }}
+      />
     </motion.div>
   );
 };
