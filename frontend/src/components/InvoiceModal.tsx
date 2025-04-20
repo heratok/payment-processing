@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare } from 'lucide-react';
+import { Mail, MessageSquare, FileText } from 'lucide-react';
 import { notificationService, NotificationRequest, NotificationType } from '../services/notificationService';
+import { reportService, ReportOptions } from '../services/reportService';
 import { toast } from 'react-hot-toast';
 
 interface InvoiceModalProps {
@@ -18,15 +19,16 @@ interface InvoiceModalProps {
 
 export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, paymentData }) => {
   const [isSending, setIsSending] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   const handleShare = async (type: NotificationType) => {
     setIsSending(true);
     try {
       const request: NotificationRequest = {
         type: type,
-        recipient: type === 'EMAIL' ? 'heratok08@gmail.com' : '+573207403002', // Número de WhatsApp por defecto
+        recipient: type === 'EMAIL' ? 'heratok08@gmail.com' : '+573207403002',
         subject: 'Factura de Pago',
-        message: undefined, // No enviar mensaje personalizado para evitar duplicación
+        message: undefined,
         paymentDetails: {
           amount: paymentData.amount,
           paymentMethod: paymentData.paymentMethod,
@@ -43,6 +45,38 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
       console.error('Error:', error);
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleGenerateReport = async () => {
+    setIsGeneratingReport(true);
+    try {
+      const options: ReportOptions = {
+        includeLogo: true,
+        title: 'Reporte de Pago',
+        includePaymentDetails: true,
+        includeUserInfo: true,
+        theme: 'LIGHT',
+        includeTimestamp: true,
+        footerMessage: 'Gracias por su pago',
+        format: 'A4',
+        paymentData: {
+          amount: paymentData.amount,
+          paymentMethod: paymentData.paymentMethod,
+          date: paymentData.date,
+          transactionId: paymentData.transactionId,
+          status: paymentData.status
+        }
+      };
+
+      const pdfBlob = await reportService.generateReport(options);
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      toast.error('Error al generar el reporte');
+      console.error('Error:', error);
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
@@ -83,8 +117,8 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
           </div>
         </div>
 
-        {/* Botones de compartir */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Botones de acción */}
+        <div className="grid grid-cols-3 gap-4">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -109,6 +143,21 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ isOpen, onClose, pay
           >
             <MessageSquare className="w-5 h-5" />
             <span className="text-sm">{isSending ? 'Enviando...' : 'WhatsApp'}</span>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleGenerateReport}
+            disabled={isGeneratingReport}
+            className={`flex flex-col items-center justify-center gap-2 p-4 rounded-lg ${
+              isGeneratingReport
+                ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:opacity-90'
+            } transition-all`}
+          >
+            <FileText className="w-5 h-5" />
+            <span className="text-sm">{isGeneratingReport ? 'Generando...' : 'Reporte'}</span>
           </motion.button>
         </div>
 
