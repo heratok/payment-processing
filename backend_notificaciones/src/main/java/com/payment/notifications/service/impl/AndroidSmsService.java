@@ -1,6 +1,7 @@
 package com.payment.notifications.service.impl;
 
 import com.payment.notifications.model.NotificationRequest;
+import com.payment.notifications.model.EmailNotification;
 import com.payment.notifications.service.NotificationService;
 import com.payment.notifications.service.WhatsAppService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,33 +36,17 @@ public class AndroidSmsService implements NotificationService, WhatsAppService {
 
     @Override
     public void sendWhatsAppMessage(String to, String messageBody) {
-        // Para WhatsApp, usaremos la aplicación de Android directamente
-        try {
-            String command = String.format(
-                "%s shell am start -a android.intent.action.SEND " +
-                "-t text/plain " +
-                "--es android.intent.extra.TEXT %s " +
-                "-p com.whatsapp",
-                ADB_PATH,
-                escapeMessage(messageBody)
-            );
-
-            executeCommand(command);
-            log.info("Comando de WhatsApp enviado al dispositivo Android");
-        } catch (Exception e) {
-            log.error("Error al enviar mensaje de WhatsApp: {}", e.getMessage());
-            throw new RuntimeException("Error al enviar WhatsApp", e);
-        }
+        throw new UnsupportedOperationException("Método no soportado para notificaciones por SMS");
     }
 
     @Override
     public void sendPaymentNotification(String phoneNumber, String amount, String status) {
-        String message = String.format(
-            "Tu pago por %s ha sido %s. Gracias por usar nuestro servicio.",
-            amount,
-            status
-        );
-        sendSms(phoneNumber, message);
+        throw new UnsupportedOperationException("Método no soportado para notificaciones por SMS");
+    }
+
+    @Override
+    public void sendEmailNotification(EmailNotification notification) {
+        throw new UnsupportedOperationException("Método no soportado para notificaciones por SMS");
     }
 
     private void sendSms(String phoneNumber, String message) {

@@ -1,6 +1,7 @@
 package com.payment.notifications.service.impl;
 
 import com.payment.notifications.model.NotificationRequest;
+import com.payment.notifications.model.EmailNotification;
 import com.payment.notifications.service.NotificationService;
 import com.payment.notifications.service.WhatsAppService;
 import com.twilio.Twilio;
@@ -9,6 +10,7 @@ import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import jakarta.annotation.PostConstruct;
+import com.payment.notifications.config.TwilioConfig;
 
 @Slf4j
 public class TwilioWhatsAppService implements NotificationService, WhatsAppService {
@@ -21,6 +23,12 @@ public class TwilioWhatsAppService implements NotificationService, WhatsAppServi
 
     @Value("${twilio.whatsapp.from}")
     private String twilioWhatsAppNumber;
+
+    private final TwilioConfig twilioConfig;
+
+    public TwilioWhatsAppService(TwilioConfig twilioConfig) {
+        this.twilioConfig = twilioConfig;
+    }
 
     @PostConstruct
     public void init() {
@@ -55,7 +63,7 @@ public class TwilioWhatsAppService implements NotificationService, WhatsAppServi
         try {
             Message message = Message.creator(
                 new PhoneNumber("whatsapp:" + to),
-                new PhoneNumber("whatsapp:" + twilioWhatsAppNumber),
+                new PhoneNumber("whatsapp:" + twilioConfig.getWhatsappFrom()),
                 messageBody
             ).create();
             
@@ -74,5 +82,10 @@ public class TwilioWhatsAppService implements NotificationService, WhatsAppServi
             status
         );
         sendWhatsAppMessage(phoneNumber, message);
+    }
+
+    @Override
+    public void sendEmailNotification(EmailNotification notification) {
+        throw new UnsupportedOperationException("Método no soportado para notificaciones por WhatsApp");
     }
 } 

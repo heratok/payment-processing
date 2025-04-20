@@ -1,6 +1,7 @@
 package com.payment.notifications.service.impl;
 
 import com.payment.notifications.model.NotificationRequest;
+import com.payment.notifications.model.EmailNotification;
 import com.payment.notifications.service.NotificationService;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -16,17 +17,29 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private TwilioConfig twilioConfig;
 
+    private final EmailNotificationService emailService;
+    private final WhatsAppNotificationService whatsAppService;
+
+    @Autowired
+    public NotificationServiceImpl(
+            EmailNotificationService emailService,
+            WhatsAppNotificationService whatsAppService) {
+        this.emailService = emailService;
+        this.whatsAppService = whatsAppService;
+    }
+
     @Override
     public void sendNotification(NotificationRequest request) {
-        String message = String.format("Notificación de pago:\n" +
-                "Monto: $%.2f\n" +
-                "Método: %s\n" +
-                "Estado: %s",
-                request.getPaymentDetails().getAmount(),
-                request.getPaymentDetails().getPaymentMethod(),
-                request.getPaymentDetails().getStatus());
-
-        sendWhatsAppMessage(request.getRecipient(), message);
+        switch (request.getType()) {
+            case "EMAIL":
+                emailService.sendNotification(request);
+                break;
+            case "WHATSAPP":
+                whatsAppService.sendNotification(request);
+                break;
+            default:
+                log.warn("Tipo de notificación no soportado: {}", request.getType());
+        }
     }
 
     @Override
@@ -47,11 +60,11 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendPaymentNotification(String phoneNumber, String amount, String status) {
-        String message = String.format(
-            "Tu pago por %s ha sido %s. Gracias por usar nuestro servicio.",
-            amount,
-            status
-        );
-        sendWhatsAppMessage(phoneNumber, message);
+        whatsAppService.sendPaymentNotification(phoneNumber, amount, status);
+    }
+
+    @Override
+    public void sendEmailNotification(EmailNotification notification) {
+        emailService.sendEmailNotification(notification);
     }
 } 
