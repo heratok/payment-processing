@@ -33,5 +33,17 @@ export const reportService = {
       console.error('Error al generar el reporte:', error);
       throw error;
     }
+  },
+
+  generateReportFromTemplate: async (customOptions: Partial<ReportOptions>): Promise<Blob> => {
+    try {
+      const response = await axios.post(`${API_URL}/reports/generate-from-template`, customOptions, {
+        responseType: 'blob'
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error al generar el reporte desde plantilla:', error);
+      throw error;
+    }
   }
 }; 
